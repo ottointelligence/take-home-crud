@@ -63,7 +63,7 @@ User should be able to navigate back to the initial page.
 
 # Deliverable
 
-Create a pull request againts main branch.
+- Zip/Tar your solution (without the `node_modules` folder!!) and send it to daniel@ottointelligence.co
 
 ## Useful Links
 
