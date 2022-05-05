@@ -1,12 +1,24 @@
 import { useRouter } from "next/router";
-import { Post } from "../../interface/post";
+import { Post, DeletePostResult } from "../../interface/post";
+import { gql, useMutation, DocumentNode } from "@apollo/client";
 
 interface TableProps {
   posts: Post[];
+  GET_POSTS: DocumentNode
 }
 
-const Table = ({ posts }: TableProps) => {
+const DEL_POST = gql`
+  mutation Delete($id: ID!) {
+  	deletePost(id: $id)
+  }
+`;
+
+const Table = ({ posts, GET_POSTS }: TableProps) => {
   const { push } = useRouter();
+  const [deletePost] = useMutation<DeletePostResult>(DEL_POST, {refetchQueries: [GET_POSTS]});
+  const handleDelete = (id: string) => {
+	deletePost({variables: {id: id}})
+  }
   return (
     <div className="mt-8 flex flex-col">
       <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -34,27 +46,33 @@ const Table = ({ posts }: TableProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {posts.map((post) => (
+                {posts.map((post) =>
                   <tr
                     key={post.id.toString()}
-                    onClick={() => {
-                      push({ pathname: "post/[id]", query: { id: "HELLO" } });
-                    }}
-                    className="cursor-pointer"
                   >
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {post.id}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="cursor-pointer whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+					  onClick={() => {
+						push({pathname: "/post/[id]", query: { id: post.id.toString() }});
+					  }}
+					>
                       {post.content}
                     </td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <button className="text-red-600 hover:text-indigo-900">
-                        Delete<span className="sr-only">, {post.id}</span>
-                      </button>
+					  <button 
+						className="text-red-600 hover:text-indigo-900"
+						onClick={() => {
+							handleDelete(post.id.toString())
+						}}
+						>
+						Delete
+					  </button>
+					  <span className="sr-only">, {post.id}</span>
                     </td>
                   </tr>
-                ))}
+					)}
               </tbody>
             </table>
           </div>
