@@ -4,15 +4,19 @@ import { DELETE_POST, GET_POSTS } from "web/components/queries"
 import { useMutation } from "@apollo/client";
 
 
-interface TableProps {
+interface TableProps { //PROPS
   posts: Post[];
 }
 
 const Table = ({ posts }: TableProps) => {
-  const { push } = useRouter();
+  const { push } = useRouter(); //BRINGS THE WEBSITE TO ANOTHER PAGE
+
+  // wrapper function that calls on the DeletePost Function
   const DeleteFunc = (id: string) => {
       deletePost({variables: {id: id}})
       }
+
+  // This is the DeletePost function using the useMutation from the resolvers
   const [deletePost] = useMutation<DeletePostNew>(DELETE_POST, {refetchQueries: [GET_POSTS]});
 
   
@@ -45,8 +49,8 @@ const Table = ({ posts }: TableProps) => {
                 </tr>
               </thead>
               
-              <tbody className="divide-y divide-gray-200 bg-white">
-                {posts.map((post) => (
+              <tbody className="divide-y divide-gray-200 bg-white" > 
+                {posts.map((post) => ( //THE ONCLICK FOR FINDING THE POST ID + CONTENT has been moved so that the user can click delete button without going to other page
                   <tr
                     key={post.id.toString()}
                     className="cursor-pointer"
@@ -68,7 +72,7 @@ const Table = ({ posts }: TableProps) => {
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                       <button //Modifications are made below
                         className="text-red-600 hover:text-indigo-900"
-                        onClick={() => {
+                        onClick={() => { // this is the actaul DELETE FUNCTION
                           DeleteFunc(post.id.toString())
                         }}
                         >
@@ -88,6 +92,9 @@ const Table = ({ posts }: TableProps) => {
 
 export default Table;
 
+// the strcuture of the first page table you see when opening the website up
+
+// the {post.id} code will bring the user to the default page that says "ID GOES HERE"
 // the strcuture of the first page table you see when opening the website up
 
 // the {post.id} code will bring the user to the default page that says "ID GOES HERE"
