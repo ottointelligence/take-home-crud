@@ -10,8 +10,12 @@ interface TableProps {
 
 const Table = ({ posts }: TableProps) => {
   const { push } = useRouter();
-
+  const DeleteFunc = (id: string) => {
+      deletePost({variables: {id: id}})
+      }
   const [deletePost] = useMutation<DeletePostNew>(DELETE_POST, {refetchQueries: [GET_POSTS]});
+
+  
   
 
   return (
@@ -45,28 +49,27 @@ const Table = ({ posts }: TableProps) => {
                 {posts.map((post) => (
                   <tr
                     key={post.id.toString()}
-                    onClick={() => {
-                      push({ pathname: "post/[id]", query: {content: post.content.toString(),  id: post.id.toString() } }); //PATH NAME + ID, CHANGED
-                      // what push does is that it allows the user to go to another page when clicked
-                    }}
                     className="cursor-pointer"
                   >
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                      onClick={() => {
+                        push({ pathname: "post/[id]", query: {content: post.content.toString(),  id: post.id.toString() } }); //PATH NAME + ID, CHANGED
+                        // what push does is that it allows the user to go to another page when clicked
+                      }}>
                       {post.id}
                     </td>
-                    <td className=" whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex-wrap">
+                    <td className=" whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex-wrap"
+                      onClick={() => {
+                      push({ pathname: "post/[id]", query: {content: post.content.toString(),  id: post.id.toString() } }); //PATH NAME + ID, CHANGED
+                      // what push does is that it allows the user to go to another page when clicked
+                    }}>
                       {post.content}
                     </td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                       <button //Modifications are made below
                         className="text-red-600 hover:text-indigo-900"
                         onClick={() => {
-                          //Console.log(post.id.toString())
-                          deletePost ({
-                            variables: {
-                              id : post.id.toString()
-                            }
-                          })
+                          DeleteFunc(post.id.toString())
                         }}
                         >
                         Delete<span className="sr-only">, {post.id}</span> 
