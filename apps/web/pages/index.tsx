@@ -49,16 +49,20 @@ const Home = () => {
       </div>
       {data.getPosts && <Table posts={data.getPosts} />}
       {displayForm && <div>
-        <CreatePostForm setDisplayForm={DisplayFunc}/>
+        <CreatePostForm setDisplayForm={DisplayFunc} /> 
         </div>
-        }
+        } 
     </div>
   );
 };
-
+// the line {displayForm && <div><CreatePostForm setDisplayForm={DisplayFunc} />  </div> is what DISPLAYS THE CREAT POST INTERFACE
+// uses displayForm and checks if it is either true or false
 export default Home;
 
 /*
+README FILE COMMENTS AND TASKS FOR THIS ASSIGNMENT
+
+
 At the initial page implement:
 
 - Create Post
