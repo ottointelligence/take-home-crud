@@ -5,7 +5,9 @@ const Post = () => {
   const { id } = query
   const { content } = query
 
-  const router = useRouter()
+  /* These two: id, content are parameters "routed" in from the index.tsx page and then used to display the post ID and Content */
+
+  const router = useRouter() // I used this to help me use the router.back() function to go back to the previous page
 
   return (
     <div className="mx-4 sm:mx-6 lg:mx-8 my-4">
