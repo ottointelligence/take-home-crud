@@ -6,3 +6,11 @@ export interface Post {
 export interface GetPostsResult {
   getPosts: Post[];
 }
+
+export interface CreatePostNew {
+  createPost: Post
+}
+
+export interface DeletePostNew {
+  deletePost: number
+}
